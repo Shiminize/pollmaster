@@ -30,26 +30,34 @@ const Admin = () => {
         setIsLoggingIn(true);
         setError('');
         try {
-            await login(email, password);
-            // Error clearing is redundant but safe since we unmount on success
+            // Race against a 15-second timeout
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('timeout')), 15000)
+            );
+            await Promise.race([login(email, password), timeoutPromise]);
+            // Success
         } catch (err) {
             console.error("Login error:", err);
             let msg = 'Failed to login.';
-            switch (err.code) {
-                case 'auth/invalid-credential':
-                    msg = 'Incorrect email or password.';
-                    break;
-                case 'auth/user-not-found':
-                    msg = 'No admin account found with this email.';
-                    break;
-                case 'auth/wrong-password':
-                    msg = 'Incorrect password. Please try again.';
-                    break;
-                case 'auth/too-many-requests':
-                    msg = 'Too many failed attempts. Please try again later.';
-                    break;
-                default:
-                    msg = 'Login failed. Please check your connection and credentials.';
+            if (err.message === 'timeout') {
+                msg = 'Connection timed out. Firewall might be blocking Firebase.';
+            } else {
+                switch (err.code) {
+                    case 'auth/invalid-credential':
+                        msg = 'Incorrect email or password.';
+                        break;
+                    case 'auth/user-not-found':
+                        msg = 'No admin account found with this email.';
+                        break;
+                    case 'auth/wrong-password':
+                        msg = 'Incorrect password. Please try again.';
+                        break;
+                    case 'auth/too-many-requests':
+                        msg = 'Too many failed attempts. Please try again later.';
+                        break;
+                    default:
+                        msg = 'Login failed. Please check your connection and credentials.';
+                }
             }
             setError(msg);
         } finally {
