@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, signInAnonymously } from 'firebase/auth';
 import { auth } from './firebase';
 
 const AuthContext = createContext();
@@ -27,8 +27,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     const value = {
-        user,
         login,
+        loginAnonymously: () => signInAnonymously(auth),
         logout,
         loading
     };

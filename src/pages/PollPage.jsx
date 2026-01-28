@@ -5,8 +5,11 @@ import { db } from '../lib/firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { PollCard } from '../features/poll/components/PollCard';
 
+import { useAuth } from '../lib/AuthContext';
+
 const PollPage = () => {
     const { id } = useParams();
+    const { user, loginAnonymously } = useAuth();
     const [poll, setPoll] = useState(null);
     const [loading, setLoading] = useState(true);
     const [voting, setVoting] = useState(false);
@@ -50,6 +53,11 @@ const PollPage = () => {
         setSelectedOption(optionIndex);
 
         try {
+            // Ensure auth before voting
+            if (!user) {
+                await loginAnonymously();
+            }
+
             const voterId = localStorage.getItem('poll_voter_id');
             const pollRef = doc(db, 'polls', id);
 
