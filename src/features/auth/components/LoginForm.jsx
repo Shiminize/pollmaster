@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-export const LoginForm = ({ onLogin, error }) => {
+export const LoginForm = ({ onLogin, error, isLoading }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (isLoading) return;
         onLogin(email, password);
     };
 
@@ -27,6 +28,7 @@ export const LoginForm = ({ onLogin, error }) => {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         placeholder="admin@example.com"
+                        disabled={isLoading}
                     />
                 </div>
                 <div>
@@ -38,10 +40,15 @@ export const LoginForm = ({ onLogin, error }) => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         placeholder="••••••••"
+                        disabled={isLoading}
                     />
                 </div>
-                <button type="submit" className="btn-primary w-full">
-                    Enter Dashboard
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`btn-primary w-full ${isLoading ? 'opacity-70 cursor-wait' : ''}`}
+                >
+                    {isLoading ? 'Verifying Credentials...' : 'Enter Dashboard'}
                 </button>
             </form>
         </div>

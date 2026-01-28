@@ -24,10 +24,14 @@ const Admin = () => {
         return () => unsubscribe();
     }, [user]);
 
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
+
     const handleLogin = async (email, password) => {
+        setIsLoggingIn(true);
+        setError('');
         try {
             await login(email, password);
-            setError('');
+            // Error clearing is redundant but safe since we unmount on success
         } catch (err) {
             console.error("Login error:", err);
             let msg = 'Failed to login.';
@@ -48,6 +52,8 @@ const Admin = () => {
                     msg = 'Login failed. Please check your connection and credentials.';
             }
             setError(msg);
+        } finally {
+            setIsLoggingIn(false);
         }
     };
 
@@ -77,7 +83,7 @@ const Admin = () => {
     };
 
     if (!user) {
-        return <LoginForm onLogin={handleLogin} error={error} />;
+        return <LoginForm onLogin={handleLogin} error={error} isLoading={isLoggingIn} />;
     }
 
     return (
