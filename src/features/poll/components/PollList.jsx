@@ -22,10 +22,22 @@ export const PollList = ({ polls }) => {
                             </div>
                         ))}
                     </div>
-                    <div className="flex justify-between items-center">
-                        <Link to={`/poll/${poll.id}`} className="text-primary-600 font-medium hover:underline text-sm">
+                    <div className="flex justify-between items-center pt-4 border-t border-gray-50 mt-4">
+                        <Link to={`/poll/${poll.id}`} className="text-primary-600 font-medium hover:underline text-sm flex items-center gap-1">
                             View Live Page &rarr;
                         </Link>
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault(); // Prevent link click if nested
+                                const url = `${window.location.origin}/poll/${poll.id}`;
+                                navigator.clipboard.writeText(url);
+                                alert('Link copied!');
+                            }}
+                            className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1 rounded transition-colors"
+                            title="Copy Link"
+                        >
+                            Copy Link 🔗
+                        </button>
                     </div>
                 </div>
             ))}
