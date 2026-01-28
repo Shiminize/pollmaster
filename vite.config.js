@@ -6,5 +6,7 @@ export default defineConfig({
   plugins: [
     react(),
   ],
-  base: './', // Use relative paths for flexible deployment
+  // IMPORTANT: The base path must match your GitHub Repository name exactly for assets to load.
+  // Repository: https://github.com/Shiminize/pollmaster -> Base: '/pollmaster/'
+  base: '/pollmaster/',
 })
