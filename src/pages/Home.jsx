@@ -11,13 +11,19 @@ const Home = () => {
         const fetchPolls = async () => {
             try {
                 // Fetch active polls
+                // Fetch active polls
+                // Note: We sort client-side to avoid needing a composite Firestore index immediately
                 const q = query(
                     collection(db, 'polls'),
-                    where('isActive', '==', true),
-                    orderBy('createdAt', 'desc')
+                    where('isActive', '==', true)
                 );
                 const snapshot = await getDocs(q);
-                setPolls(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                const fetchedPolls = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                // Sort via JS (Newest first)
+                fetchedPolls.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+                setPolls(fetchedPolls);
             } catch (err) {
                 console.error("Error fetching polls:", err);
             } finally {
