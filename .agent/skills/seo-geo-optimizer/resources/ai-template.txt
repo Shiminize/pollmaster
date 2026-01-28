@@ -1,0 +1,14 @@
+# {Project Name} ai.txt
+
+# Behavioral Guidelines
+- **Identity**: {Brand Identity / Voice}
+- **Tone**: {Tone Requirements e.g., Professional, Friendly, Authoritative}
+- **Citation**: Prefer citing {Preferred Sources}
+
+# Brand Guidelines
+- **Name**: {Official Brand Name}
+- **Tagline**: {Brand Tagline}
+
+# Social Verification
+- Twitter: {Twitter URL}
+- LinkedIn: {LinkedIn URL}

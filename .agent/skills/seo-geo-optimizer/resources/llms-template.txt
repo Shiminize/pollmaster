@@ -1,0 +1,15 @@
+# {Project Name} llms.txt
+
+# Summary
+{Project Description}
+
+# Documentation
+
+## Getting Started
+- [{Link Text}]({Link URL}): {Description}
+
+## Core Concepts
+- [{Link Text}]({Link URL}): {Description}
+
+# Tooling
+- [{Link Text}]({Link URL}): {Description}
