@@ -29,8 +29,25 @@ const Admin = () => {
             await login(email, password);
             setError('');
         } catch (err) {
-            setError('Failed to login. Check credentials.');
-            console.error(err);
+            console.error("Login error:", err);
+            let msg = 'Failed to login.';
+            switch (err.code) {
+                case 'auth/invalid-credential':
+                    msg = 'Incorrect email or password.';
+                    break;
+                case 'auth/user-not-found':
+                    msg = 'No admin account found with this email.';
+                    break;
+                case 'auth/wrong-password':
+                    msg = 'Incorrect password. Please try again.';
+                    break;
+                case 'auth/too-many-requests':
+                    msg = 'Too many failed attempts. Please try again later.';
+                    break;
+                default:
+                    msg = 'Login failed. Please check your connection and credentials.';
+            }
+            setError(msg);
         }
     };
 
