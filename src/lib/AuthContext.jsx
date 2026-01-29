@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const value = {
+        user,
         login,
         loginAnonymously: () => signInAnonymously(auth),
         logout,
