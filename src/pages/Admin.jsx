@@ -5,6 +5,7 @@ import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from 
 import { LoginForm } from '../features/auth/components/LoginForm';
 import { PollCreationForm } from '../features/poll/components/PollCreationForm';
 import { PollList } from '../features/poll/components/PollList';
+import { DebugConsole } from '../components/DebugConsole';
 
 const Admin = () => {
     const { user, login, logout } = useAuth();
@@ -91,7 +92,12 @@ const Admin = () => {
     };
 
     if (!user) {
-        return <LoginForm onLogin={handleLogin} error={error} isLoading={isLoggingIn} />;
+        return (
+            <>
+                <LoginForm onLogin={handleLogin} error={error} isLoading={isLoggingIn} />
+                <DebugConsole />
+            </>
+        );
     }
 
     return (
