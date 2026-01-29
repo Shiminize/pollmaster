@@ -6,6 +6,7 @@ export const LoginForm = ({ onLogin, error, isLoading }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // alert('Debug: Submit Button Clicked'); // Uncomment for aggressive debugging
         if (isLoading) return;
         onLogin(email, password);
     };

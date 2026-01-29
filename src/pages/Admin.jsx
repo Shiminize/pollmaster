@@ -28,6 +28,7 @@ const Admin = () => {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     const handleLogin = async (email, password) => {
+        console.log("Starting login process for:", email);
         setIsLoggingIn(true);
         setError('');
         try {
